@@ -1,0 +1,301 @@
+{
+  "info": {
+    "_postman_id": "19174d35-ec3c-4947-9f2c-78df31714a10",
+    "name": "Cow Hut",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16786736"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "User Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{main_path_prod}}/users/648e60219d04c5df30db660d",
+              "host": ["{{main_path_prod}}"],
+              "path": ["users", "648e60219d04c5df30db660d"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n     \"income\":0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/users/648e60219d04c5df30db660d",
+              "host": ["{{main_path_prod}}"],
+              "path": ["users", "648e60219d04c5df30db660d"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/users/648e60219d04c5df30db660d",
+              "host": ["{{main_path_prod}}"],
+              "path": ["users", "648e60219d04c5df30db660d"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{main_path_prod}}/users?role=seller",
+              "host": ["{{main_path_prod}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "role",
+                  "value": "seller"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cow",
+      "item": [
+        {
+          "name": "Create cow",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\n  \"name\": \"Rongbaj pro max\",\n  \"age\": 4,\n  \"price\": 100000,\n  \"location\": \"Dhaka\",\n  \"breed\": \"Brahman\",\n  \"weight\": 400,\n  \"label\": \"for sale\",\n  \"category\": \"Beef\",\n  \"seller\": \"648f0f2a196c06e2afaea118\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/cows",
+              "host": ["{{main_path_prod}}"],
+              "path": ["cows"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cow  Detail",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/cows/648df6dd9d91bd5bdd933a01",
+              "host": ["{{main_path_prod}}"],
+              "path": ["cows", "648df6dd9d91bd5bdd933a01"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update cow",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n     \"price\":12000  \n     \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/cows/648edaaaeb259f683668a95c",
+              "host": ["{{main_path_prod}}"],
+              "path": ["cows", "648edaaaeb259f683668a95c"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete cow",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/cows/648edaaaeb259f683668a95c",
+              "host": ["{{main_path_prod}}"],
+              "path": ["cows", "648edaaaeb259f683668a95c"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All Cows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{main_path_prod}}/cows",
+              "host": ["{{main_path_prod}}"],
+              "path": ["cows"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cow\":\"648df6dd9d91bd5bdd933a01\",\n    \"buyer\":\"648ca6c4a20bbc77dc4d1a4f\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_prod}}/orders",
+              "host": ["{{main_path_prod}}"],
+              "path": ["orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All Cows",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{main_path}}/users?searchTerm=ah",
+              "host": ["{{main_path}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "ah"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"abrakadabra\",\n    \"role\": \"buyer\",\n    \"name\": {\n        \"firstName\": \"Mr. Rkil\",\n        \"lastName\": \"Bro\"\n    },\n    \"phoneNumber\": \"123321111\",\n    \"address\": \"Chattogram\",\n    \"budget\": 100000,\n    \"income\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{main_path_dev}}/auth/signup",
+              "host": ["{{main_path_dev}}"],
+              "path": ["auth", "signup"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "main_path_dev",
+      "value": "http://localhost:5001/api/v1/",
+      "type": "string"
+    },
+    {
+      "key": "main_path_prod",
+      "value": "https://assignment-3-cow-hut.vercel.app/api/v1",
+      "type": "string"
+    }
+  ]
+}
