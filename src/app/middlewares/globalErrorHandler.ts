@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-expressions */
 import { ErrorRequestHandler } from 'express'
 import { generic_error_type } from '../../interfaces/error'
@@ -8,8 +9,6 @@ import HandleZodValidationError from '../errors/HandleZodValidationError'
 import { handleCastError } from '../errors/HandleCastError'
 
 const global_error_handler: ErrorRequestHandler = (error, req, res, next) => {
-  console.log(error)
-
   let status_code = 500
   let message = 'Something went wrong'
   let errorMessages: generic_error_type[] = []
@@ -43,6 +42,5 @@ const global_error_handler: ErrorRequestHandler = (error, req, res, next) => {
     errorMessages,
     stack: error?.stack, //config?.node_env === 'development' ? error?.stack : undefined,
   })
-  next()
 }
 export default global_error_handler

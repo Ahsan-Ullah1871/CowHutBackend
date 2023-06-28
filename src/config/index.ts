@@ -11,4 +11,11 @@ export default {
   default_user_password: process.env.DEFAULT_USER_PASSWORD,
   default_student_password: process.env.DEFAULT_USER_PASSWORD,
   default_faculty_password: process.env.DEFAULT_USER_PASSWORD,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+  jwt: {
+    access_token_secret: process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
+    access_token_expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+    refresh_token_secret: process.env.JWT_REFRESH_TOKEN_SECRET_KEY,
+    refresh_token_expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
+  },
 }

@@ -5,9 +5,12 @@ import { error_res_type } from './interfaces/error'
 import global_error_handler from './app/middlewares/globalErrorHandler'
 import AllRoutes from './routes/Routes'
 import root_api_response from './constant/RootApiResponse'
+import cookieParser from 'cookie-parser'
+
 const app = express()
 
 app.use(cors())
+app.use(cookieParser())
 
 //parser
 app.use(express.json())

@@ -1,4 +1,4 @@
-export type IUser_role = 'seller' | 'buyer'
+export type IUser_role = 'seller' | 'buyer' | 'admin'
 
 export type ILocations =
   | 'Dhaka'
