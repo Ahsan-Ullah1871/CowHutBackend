@@ -50,3 +50,16 @@ export const user_signup_zod_schema = z.object({
       }
     }),
 })
+
+export const user_login_zod_schema = z.object({
+  body: z.object({
+    phoneNumber: z.string({ required_error: 'Phone Number  is required' }),
+    password: z.string({ required_error: 'Password  is required' }),
+  }),
+})
+
+export const user_refresh_token_zod_schema = z.object({
+  cookies: z.object({
+    refreshToken: z.string({ required_error: 'Refresh token  is required' }),
+  }),
+})

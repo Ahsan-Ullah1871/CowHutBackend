@@ -1,4 +1,4 @@
-import jwt, { Secret } from 'jsonwebtoken'
+import jwt, { JwtPayload, Secret } from 'jsonwebtoken'
 
 // create jwt token
 const create_token = (
@@ -10,8 +10,8 @@ const create_token = (
 }
 
 // verify the token
-const verify_token = (token: string, secret_key: Secret) => {
-  return jwt.verify(token, secret_key)
+const verify_token = (token: string, secret_key: Secret): JwtPayload => {
+  return jwt.verify(token, secret_key) as JwtPayload
 }
 
 export const jwtHelper = {
