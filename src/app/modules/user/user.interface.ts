@@ -26,6 +26,7 @@ export type UserModel = {
     encrypted_pass: string,
     given_pass: string
   ): Promise<boolean>
+  isPhoneNumberExist(phoneNumber: string): Promise<boolean>
 } & Model<IUser>
 
 // User filter type

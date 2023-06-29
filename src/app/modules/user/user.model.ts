@@ -50,6 +50,17 @@ UserSchema.statics.isUserExistByID = async function (
   }).lean()
 }
 
+//isPhone Number Exist
+UserSchema.statics.isPhoneNumberExist = async function (
+  phoneNumber: string
+): Promise<boolean> {
+  const isExist = await User.findOne({
+    phoneNumber: phoneNumber,
+  })
+
+  return isExist ? true : false
+}
+
 //password check method
 UserSchema.statics.isPasswordMatched = async function (
   encrypted_pass: string,
