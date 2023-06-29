@@ -59,7 +59,10 @@ const my_profile = async (id: string): Promise<Partial<IUser> | null> => {
   }
 
   //
-  const user = await User.findById(id, { name: 1, phoneNumber: 1, address: 1 })
+  const user = await User.findById(
+    id
+    // { name: 1, phoneNumber: 1, address: 1 }
+  )
 
   return user
 }

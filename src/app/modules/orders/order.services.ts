@@ -12,7 +12,9 @@ import { JwtPayload } from 'jsonwebtoken'
 // Create new Order
 const create_new_order = async (order_data: IOrder): Promise<IOrder | null> => {
   // buyer checking
-  const BuyerDetails: IUser | null = await User.findById(order_data.buyer)
+  const BuyerDetails: IUser | null = await User.isUserExistByID(
+    order_data.buyer as Types.ObjectId
+  )
   if (!BuyerDetails) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Buyer not found')
   }
@@ -54,8 +56,9 @@ const create_new_order = async (order_data: IOrder): Promise<IOrder | null> => {
 
     //
     const buyer_budget: Partial<IUser> = {
-      budget: (BuyerDetails?.budget as number) - CowDetails?.price,
+      budget: Number((BuyerDetails?.budget as number) - CowDetails?.price),
     }
+
     const updated_buyer = await User.findByIdAndUpdate(
       order_data?.buyer,
       buyer_budget,
@@ -99,10 +102,7 @@ const create_new_order = async (order_data: IOrder): Promise<IOrder | null> => {
     await session.abortTransaction()
     await session.endSession()
 
-    throw new ApiError(
-      httpStatus.REQUEST_TIMEOUT,
-      'Something is happening , try latter and  check the fields'
-    )
+    throw error
   }
 
   return new_created_order
@@ -130,7 +130,57 @@ const gel_all_orders = async (
   return all_orders
 }
 
+// get get_order_details
+const get_order_details = async (
+  logged_in_user_data: JwtPayload,
+  order_id: string | Types.ObjectId
+): Promise<IOrder | null> => {
+  const { role } = logged_in_user_data
+  let order_details = null
+
+  if (role === 'admin') {
+    order_details = await Order.findById(order_id)
+      .populate({
+        path: 'cow',
+        populate: [
+          {
+            path: 'seller',
+          },
+        ],
+      })
+      .populate('buyer')
+  } else if (role === 'buyer') {
+    order_details = await Order.findById(order_id)
+      .populate({
+        path: 'cow',
+        populate: [
+          {
+            path: 'seller',
+            select: 'name phoneNumber address',
+          },
+        ],
+      })
+      .populate('buyer', { name: 1, phoneNumber: 1, address: 1, _id: 0 })
+  } else if (role === 'seller') {
+    order_details = await Order.findById(order_id)
+      .populate({
+        path: 'cow',
+        populate: [
+          {
+            path: 'seller',
+          },
+        ],
+      })
+      .populate('buyer', {
+        fields: [{ name: 1, phoneNumber: 1, address: 1 }],
+      })
+  }
+
+  return order_details
+}
+
 export const OrderServices = {
   create_new_order,
   gel_all_orders,
+  get_order_details,
 }

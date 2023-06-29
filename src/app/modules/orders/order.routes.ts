@@ -20,4 +20,10 @@ router.get(
   OrderController.allOrders
 )
 
+router.get(
+  '/:id',
+  authHandler('buyer', 'admin', 'seller'),
+  OrderController.orderDetails
+)
+
 export const OrderRoute = router

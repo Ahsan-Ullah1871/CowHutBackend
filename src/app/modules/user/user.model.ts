@@ -42,12 +42,7 @@ UserSchema.statics.isUserExist = async function (
 UserSchema.statics.isUserExistByID = async function (
   _id: Types.ObjectId
 ): Promise<Partial<IUser> | null> {
-  return await User.findById(_id, {
-    _id: 1,
-    role: 1,
-    password: 1,
-    phoneNumber: 1,
-  }).lean()
+  return await User.findById(_id).lean()
 }
 
 //isPhone Number Exist

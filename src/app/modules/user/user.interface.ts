@@ -1,4 +1,3 @@
-import { UserModel } from './user.interface'
 import { Model, Types } from 'mongoose'
 import { IUser_role } from '../../../interfaces/common'
 

@@ -30,8 +30,26 @@ const allOrders = catchAsync(async (req: Request, res: Response) => {
     message: 'Orders retrieved successfully',
   })
 })
+//  Get orderDetails
+const orderDetails = catchAsync(async (req: Request, res: Response) => {
+  const { ...logged_in_user_data } = req.logged_in_user
+  const { id: order_id } = req.params
+
+  const result = await OrderServices.get_order_details(
+    logged_in_user_data,
+    order_id
+  )
+
+  sendResponse(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Order retrieved successfully',
+  })
+})
 
 export const OrderController = {
   createOrder,
   allOrders,
+  orderDetails,
 }
