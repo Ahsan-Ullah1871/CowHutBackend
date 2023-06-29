@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 import { CowModel, ICow } from './cow.interface'
 import { locations } from '../../../constant/common'
 import { cow_categories, cow_label } from './cow.constant'
@@ -15,5 +15,25 @@ const CowSchema = new Schema<ICow, CowModel>({
   category: { type: String, required: true, enum: cow_categories },
   seller: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
 })
+
+//isCowOwner
+CowSchema.statics.validateCowOwnership = async function (
+  cow_id: Types.ObjectId,
+  seller_id: Types.ObjectId
+): Promise<Partial<ICow> | null> {
+  const cow = await Cow.findOne({
+    _id: new Types.ObjectId(cow_id),
+    seller: new Types.ObjectId(seller_id),
+  }).lean()
+
+  return cow
+}
+
+//isCowAvailable
+CowSchema.statics.isCowAvailable = async function (
+  id: Types.ObjectId
+): Promise<Partial<ICow> | null> {
+  return await Cow.findById(id).lean()
+}
 
 export const Cow = model<ICow, CowModel>('Cow', CowSchema)

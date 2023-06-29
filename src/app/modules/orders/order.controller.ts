@@ -19,7 +19,9 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
 
 //  Get all orders
 const allOrders = catchAsync(async (req: Request, res: Response) => {
-  const result = await OrderServices.gel_all_orders()
+  const { ...logged_in_user_data } = req.logged_in_user
+
+  const result = await OrderServices.gel_all_orders(logged_in_user_data)
 
   sendResponse(res, {
     status_code: httpStatus.OK,

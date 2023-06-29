@@ -6,7 +6,8 @@ import httpStatus from 'http-status'
 import { IOrder } from './order.interface'
 import { ICow } from '../cow/cow.interface'
 import { Cow } from '../cow/cow.model'
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
+import { JwtPayload } from 'jsonwebtoken'
 
 // Create new Order
 const create_new_order = async (order_data: IOrder): Promise<IOrder | null> => {
@@ -108,8 +109,23 @@ const create_new_order = async (order_data: IOrder): Promise<IOrder | null> => {
 }
 
 // get all orders
-const gel_all_orders = async (): Promise<IOrder[] | null> => {
-  const all_orders = await Order.find({}).populate('cow').populate('buyer')
+const gel_all_orders = async (
+  logged_in_user_data: JwtPayload
+): Promise<IOrder[] | null> => {
+  const { _id, role } = logged_in_user_data
+  let all_orders = null
+
+  if (role === 'admin') {
+    all_orders = await Order.find({}).populate('cow').populate('buyer')
+  } else if (role === 'buyer') {
+    all_orders = await Order.find({ buyer: new Types.ObjectId(_id) })
+      .populate('cow')
+      .populate('buyer')
+  } else if (role === 'seller') {
+    all_orders = await Order.find({ buyer: new Types.ObjectId(_id) })
+      .populate('cow')
+      .populate('buyer')
+  }
 
   return all_orders
 }

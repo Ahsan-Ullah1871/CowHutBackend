@@ -8,11 +8,15 @@ import { Cow } from './cow.model'
 import { User } from '../user/user.model'
 import { IUser } from '../user/user.interface'
 import httpStatus from 'http-status'
+import { Types } from 'mongoose'
 
 // Create new Cow
 const create_new_cow = async (cow_data: ICow): Promise<ICow | null> => {
   // seller checking
-  const isSellerExist: IUser | null = await User.findById(cow_data.seller)
+  const isSellerExist: IUser | null = await User.isUserExistByID(
+    cow_data?.seller as Types.ObjectId
+  )
+
   if (!isSellerExist || isSellerExist?.role !== 'seller') {
     throw new ApiError(httpStatus.NOT_FOUND, 'Seller not found')
   }
@@ -72,24 +76,19 @@ const get_cow_details = async (id: string): Promise<ICow | null> => {
 // Update cow
 const update_cow = async (
   cow_data: Partial<ICow>,
-  id: string
+  cow_id: Types.ObjectId | string,
+  seller_id: Types.ObjectId
 ): Promise<ICow | null> => {
-  const isExist = await Cow.findById(id)
+  // cow seller checking
 
-  if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Cow not found')
+  if (!(await Cow.validateCowOwnership(cow_id as Types.ObjectId, seller_id))) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You are not valid seller for this cow'
+    )
   }
 
-  // seller checking
-  if (cow_data?.seller) {
-    const isSellerExist: IUser | null = await User.findById(cow_data.seller)
-
-    if (!isSellerExist || isSellerExist?.role !== 'seller') {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Seller not found')
-    }
-  }
-
-  const updated_cow_data = await Cow.findByIdAndUpdate(id, cow_data, {
+  const updated_cow_data = await Cow.findByIdAndUpdate(cow_id, cow_data, {
     new: true,
   })
 
@@ -104,14 +103,19 @@ const update_cow = async (
 }
 
 //  Delete cow
-const delete_cow = async (id: string): Promise<ICow | null> => {
-  const isExist = await Cow.findById(id)
-
-  if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Cow not found')
+const delete_cow = async (
+  cow_id: string | Types.ObjectId,
+  seller_id: Types.ObjectId
+): Promise<ICow | null> => {
+  // cow seller checking
+  if (!(await Cow.validateCowOwnership(cow_id as Types.ObjectId, seller_id))) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You are not valid seller for this cow'
+    )
   }
 
-  const cow = await Cow.findByIdAndDelete(id)
+  const cow = await Cow.findByIdAndDelete(cow_id)
 
   if (!cow) {
     throw new ApiError(httpStatus.EXPECTATION_FAILED, 'Failed to delete cow')

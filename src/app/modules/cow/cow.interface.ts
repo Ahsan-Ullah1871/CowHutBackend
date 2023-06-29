@@ -17,7 +17,13 @@ export type ICow = {
   seller: Types.ObjectId | IUser
 }
 
-export type CowModel = Model<ICow, object>
+export type CowModel = {
+  validateCowOwnership(
+    cow_id: Types.ObjectId,
+    seller_id: Types.ObjectId
+  ): Promise<Partial<ICow> | null>
+  isCowAvailable(id: Types.ObjectId): Promise<Partial<ICow> | null>
+} & Model<ICow>
 
 export type ICowFilter = {
   minPrice?: string

@@ -22,10 +22,11 @@ const createCow = catchAsync(async (req: Request, res: Response) => {
 
 // //updateCow
 const updateCow = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params
+  const { id: cow_id } = req.params
+  const { _id: seller_id } = req.logged_in_user
 
   const { ...cow_data } = req.body
-  const result = await CowServices.update_cow(cow_data, id)
+  const result = await CowServices.update_cow(cow_data, cow_id, seller_id)
 
   sendResponse(res, {
     status_code: httpStatus.OK,
@@ -66,9 +67,9 @@ const cowDetails = catchAsync(async (req: Request, res: Response) => {
 
 // // Delete   Cow
 const deleteCow = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params
-
-  const result = await CowServices.delete_cow(id)
+  const { id: cow_id } = req.params
+  const { _id: seller_id } = req.logged_in_user
+  const result = await CowServices.delete_cow(cow_id, seller_id)
 
   sendResponse(res, {
     status_code: httpStatus.OK,
