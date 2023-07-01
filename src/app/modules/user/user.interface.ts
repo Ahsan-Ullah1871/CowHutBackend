@@ -20,7 +20,7 @@ export type IUser = {
 // Create a new Model type that knows about IUserMethods when available here...
 export type UserModel = {
   isUserExist(phoneNumber: string): Promise<IUser | null>
-  isUserExistByID(_id: Types.ObjectId): Promise<IUser | null>
+  isUserExistByID(_id: Types.ObjectId | string): Promise<IUser | null>
   isPasswordMatched(
     encrypted_pass: string,
     given_pass: string

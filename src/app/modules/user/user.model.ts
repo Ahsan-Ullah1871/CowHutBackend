@@ -40,7 +40,7 @@ UserSchema.statics.isUserExist = async function (
 }
 //isUserExist  static method finding by user _id
 UserSchema.statics.isUserExistByID = async function (
-  _id: Types.ObjectId
+  _id: Types.ObjectId | string
 ): Promise<Partial<IUser> | null> {
   return await User.findById(_id).lean()
 }
