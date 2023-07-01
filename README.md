@@ -4,7 +4,7 @@ Welcome to the Online Cow Selling Backend for Eid Ul Adha! This assignment focus
 
 The primary objective of this assignment is to implement a range of essential features that will ensure a smooth and efficient user experience. These features include error handling, CRUD operations, pagination and filtering, transactions (including a simple transaction without a payment gateway), and the ability to add additional routes as necessary. By accomplishing these tasks, we aim to create a reliable and user-friendly platform that facilitates the buying and selling of cows during this special time.
 
-These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.app) API. We hope you enjoy these docs, and please don't hesitate to [file an issue](https://github.com/Programming-Hero-Web-Course4/l2a3-cow-hut-backend-assignment-Ahsan-Ullah1871/issues) if you see anything missing.
+These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) API. We hope you enjoy these docs, and please don't hesitate to [file an issue](https://github.com/Programming-Hero-Web-Course4/l2a3-cow-hut-backend-assignment-Ahsan-Ullah1871/issues) if you see anything missing.
 
 ## Use Cases
 
@@ -54,20 +54,124 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 ### Live Link:
 
 ```http
-   https://assignment-3-cow-hut.vercel.app
+   https://cow-hut-sand.vercel.app/
 ```
 
-[Download postman file from here](./Cow%20Hut.postman_collection.json)
+<!-- [Download postman file from here](./Cow%20Hut.postman_collection.json) -->
 
-### Auth (signup)
+<br/>
 
-- Signup new user
-  <br/>
+### Admin
+
+- <h3>Signup new admin</h3>
+
+  ```http
+  POST /api/v1/admins/create-admin
+  ```
+
+  **Body:**
+  The request body should be a JSON object with the following properties:
+
+  | properties    | Type         | Description                       |
+  | ------------- | ------------ | --------------------------------- |
+  | `phoneNumber` | `string`     | The phone number of the admin.    |
+  | `role`        | `IUser_role` | The role of the admin is "admin". |
+  | `password`    | `string`     | The password of the admin.        |
+  | `name`        | `object`     | The name of the admin.            |
+  | `address`     | `string`     | The address of the admin.         |
+
+  ```json
+
+  // request body
+  {
+  "password":"abrakadabra",
+  "role": "admin",
+     "name":{
+        "firstName": "Mr. Babull",
+        "lastName": "Bro"
+     },
+  "phoneNumber":"01711111111",
+  "address": "Chattogram",
+   }
+
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data": {},
+  }
+
+  ```
+
+- <h3>login admin</h3>
+
+  ```http
+  POST /api/v1/admins/login
+  ```
+
+  **Body:**
+  The request body should be a JSON object with the following properties:
+
+  | properties    | Type     | Description                    |
+  | ------------- | -------- | ------------------------------ |
+  | `phoneNumber` | `string` | The phone number of the admin. |
+  | `password`    | `string` | The password of the admin.     |
+
+  ```json
+
+  // request body
+  {
+  "password":"abrakadabra",
+  "phoneNumber":"01711111111",
+  }
+
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data": {
+      "accessToken":""
+     },
+  }
+
+  ```
+
+- <h3>refresh token</h3>
+
+  ```http
+  POST /api/v1/admins/refresh-token
+  ```
+
+  **Body:**
+  The request cookies properties:
+
+  | properties     | Type     | Description                               |
+  | -------------- | -------- | ----------------------------------------- |
+  | `refreshToken` | `string` | The refresh token which saved in cookies. |
+
+  ```json
+  //Responses
+  {
+    "statusCode": 200,
+    "success": true,
+    "message": "",
+    "data": {
+      "accessToken": ""
+    }
+  }
+  ```
+
+### Auth
+
+- <h3>Signup new user</h3>
 
   ```http
   POST /api/v1/auth/signup
   ```
 
+  **Body:**
   The request body should be a JSON object with the following properties:
 
   | properties    | Type         | Description                                |
@@ -106,14 +210,80 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
+- <h3>login user</h3>
+
+  ```http
+  POST /api/v1/auth/login
+  ```
+
+  **Body:**
+  The request body should be a JSON object with the following properties:
+
+  | properties    | Type     | Description                   |
+  | ------------- | -------- | ----------------------------- |
+  | `phoneNumber` | `string` | The phone number of the user. |
+  | `password`    | `string` | The password of the user.     |
+
+  ```json
+
+  // request body
+  {
+  "password":"abrakadabra",
+  "phoneNumber":"01711111111",
+  }
+
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data": {
+      "accessToken":""
+     },
+  }
+
+  ```
+
+- <h3>refresh token</h3>
+
+  ```http
+  POST /api/v1/auth/refresh-token
+  ```
+
+  **Body:**
+  The request cookies properties:
+
+  | properties     | Type     | Description                               |
+  | -------------- | -------- | ----------------------------------------- |
+  | `refreshToken` | `string` | The refresh token which saved in cookies. |
+
+  ```json
+  //Responses
+  {
+    "statusCode": 200,
+    "success": true,
+    "message": "",
+    "data": {
+      "accessToken": ""
+    }
+  }
+  ```
+
 ### User
 
-- All users
-  <br/>
+- <h3>All users</h3>
 
   ```http
   GET /api/v1/users
   ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
 
   | Parameter     | Type         | Description                                           |
   | ------------- | ------------ | ----------------------------------------------------- |
@@ -133,8 +303,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- User Details
-  <br/>
+- <h3>User Details</h3>
 
   ```http
   GET /api/v1/users/{ user_id }
@@ -143,6 +312,14 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   GET /api/v1/users/648f0f9e196c06e2afaea12d
 
   ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
 
   | Parameter | Type     | Description           |
   | --------- | -------- | --------------------- |
@@ -159,8 +336,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- Update user
-  <br/>
+- <h3>Update user</h3>
 
   ```http
   PATCH /api/v1/users/{ user_id }
@@ -169,10 +345,19 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   PATCH /api/v1/users/648f0f9e196c06e2afaea12d
   ```
 
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
+
   | Parameter | Type     | Description           |
   | --------- | -------- | --------------------- |
   | `user_id` | `string` | The \_id of the user. |
 
+  **Body:**
   The request body should be a JSON object with the following properties:
 
   | properties    | Type         | Description                                           |
@@ -196,8 +381,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- Delete user
-  <br/>
+- <h3>Delete user</h3>
 
   ```http
   Delete /api/v1/users/{ user_id }
@@ -205,6 +389,14 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   <!--example  -->
   DELETE /api/v1/users/648f0f7b196c06e2afaea128
   ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
 
   | Parameter | Type     | Description           |
   | --------- | -------- | --------------------- |
@@ -223,13 +415,18 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
 ### Cow
 
-- Create cow
-  <br/>
+- <h3>Create cow</h3>
 
   ```http
   POST /api/v1/cows
   ```
 
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Body:**
   The request body should be a JSON object with the following properties:
 
   | Property   | Type             | Description                                             |
@@ -269,8 +466,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- All cows
-  <br/>
+- <h3>All cows</h3>
 
   ```http
   GET /api/v1/cows
@@ -284,6 +480,13 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   GET api/v1/cows?searchTerm=Cha
   ```
 
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params (filter):**
+
   | Filter Parameters | Type   | Description                         |
   | ----------------- | ------ | ----------------------------------- |
   | `minPrice`        | number | (Optional) Min. price.              |
@@ -291,12 +494,13 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   | `location`        | string | (Optional) The location of the cow. |
   | `searchTerm`      | string | (Optional) search key.              |
 
-  | Pagination Parameters | Type   | Description             |
+  **Params (pagination):**
+  | Pagination Parameters | Type | Description |
   | --------------------- | ------ | ----------------------- |
-  | `page`                | number | (Optional) page number. |
-  | `limit`               | number | (Optional) limit.       |
-  | `sortBy`              | string | (Optional) sort by      |
-  | `sortOrder`           | string | (Optional) sort order   |
+  | `page` | number | (Optional) page number. |
+  | `limit` | number | (Optional) limit. |
+  | `sortBy` | string | (Optional) sort by |
+  | `sortOrder` | string | (Optional) sort order |
 
   ```http
   //Responses
@@ -309,8 +513,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- Cow details
-  <br/>
+- <h3>Cow details</h3>
 
   ```http
   GET /api/v1/cows/{ cow_id }
@@ -319,9 +522,16 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   GET /api/v1/cows/648f11ae84bf0b12abe9ccda
   ```
 
-  | Parameter | Type     | Description          |
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
+  | Parameter | Type | Description |
   | --------- | -------- | -------------------- |
-  | `cow_id`  | `string` | The \_id of the cow. |
+  | `cow_id` | `string` | The \_id of the cow. |
 
   ```http
   //Responses
@@ -329,13 +539,12 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
      "statusCode":200,
      "success": true,
      "message": "",
-     "data": [{},{}],
+     "data":{},
   }
 
   ```
 
-- Update cow
-  <br/>
+- <h3>Update cow</h3>
 
   ```http
   PATCH /api/v1/cows/{ cow_id }
@@ -344,10 +553,18 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   PATCH /api/v1/cows/648f11ae84bf0b12abe9ccda
   ```
 
-  | Parameter | Type     | Description          |
-  | --------- | -------- | -------------------- |
-  | `cow_id`  | `string` | The \_id of the cow. |
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
 
+  **Params:**
+  The request params properties:
+  | Parameter | Type | Description |
+  | --------- | -------- | -------------------- |
+  | `cow_id` | `string` | The \_id of the cow. |
+
+  **Body:**
   The request body should be a JSON object with the following properties:
 
   | Property   | Type             | Description                                                        |
@@ -373,8 +590,7 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- Delete cow
-  <br/>
+- <h3>Delete cow</h3>
 
   ```http
   DELETE /api/v1/cows/ { cow_id }
@@ -383,9 +599,16 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   DELETE /api/v1/cows/648f11a084bf0b12abe9ccd7
   ```
 
-  | Parameter | Type     | Description          |
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
+  | Parameter | Type | Description |
   | --------- | -------- | -------------------- |
-  | `cow_id`  | `string` | The \_id of the cow. |
+  | `cow_id` | `string` | The \_id of the cow. |
 
   ```http
   //Responses
@@ -400,13 +623,18 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
 ### Order
 
-- Create order
-  <br/>
+- <h3>Create order</h3>
 
   ```http
   POST /api/v1/orders
   ```
 
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
   The request body should be a JSON object with the following properties:
 
   | Property | Type     | Description          |
@@ -432,12 +660,16 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
-- All Orders
-  <br/>
+- <h3>All Orders</h3>
 
   ```http
   POST /api/v1/orders
   ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
 
   ```
   //Responses
@@ -450,12 +682,43 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
 
   ```
 
+- <h3>Order details</h3>
+
+  ```http
+  GET /api/v1/cows/{ cow_id }
+
+  <!--example  -->
+  GET /api/v1/cows/648f11ae84bf0b12abe9ccda
+  ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Params:**
+  The request params properties:
+  | Parameter | Type | Description |
+  | --------- | -------- | -------------------- |
+  | `order_id`| `string` | The \_id of the order. |
+
+  ```http
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data":{},
+  }
+
+  ```
+
 ### Types
 
 - IUser_role
 
   ```
-  type IUser_role = 'seller' | 'buyer'
+  type IUser_role = 'seller' | 'buyer' | "admin"
 
   ```
 
@@ -480,4 +743,3 @@ These docs describe how to use the [CowHut](https://assignment-3-cow-hut.vercel.
   type ICowCategories = 'Dairy' | 'Beef' | 'DualPurpose'
   type ICowLabel = 'for sale' | 'sold out'
   ```
-# l2b1a4-cow-hut-admin-auth-Ahsan-Ullah1871
