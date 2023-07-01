@@ -685,10 +685,10 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
 - <h3>Order details</h3>
 
   ```http
-  GET /api/v1/cows/{ cow_id }
+  GET /api/v1/orders/{ order_id }
 
   <!--example  -->
-  GET /api/v1/cows/648f11ae84bf0b12abe9ccda
+  GET /api/v1/orders/648f11ae84bf0b12abe9ccda
   ```
 
   **Headers:**
