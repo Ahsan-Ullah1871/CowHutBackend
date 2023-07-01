@@ -7,4 +7,17 @@ export type IOrder = {
   buyer: Types.ObjectId | IUser
 }
 
-export type OrderModel = Model<IOrder, object>
+export type OrderModel = {
+  allOrders(): Promise<IOrder[] | null>
+  orderDetails(order_id: Types.ObjectId | string): Promise<IOrder | null>
+  buyerOrders(buyer_id: Types.ObjectId | string): Promise<IOrder[] | null>
+  buyerOrderDetails(
+    buyer_id: Types.ObjectId | string,
+    order_id: Types.ObjectId | string
+  ): Promise<IOrder | null>
+  sellerOrders(seller_id: Types.ObjectId | string): Promise<IOrder[] | null>
+  sellerOrderDetails(
+    seller_id: Types.ObjectId | string,
+    order_id: Types.ObjectId | string
+  ): Promise<IOrder | null>
+} & Model<IOrder>

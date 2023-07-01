@@ -113,21 +113,19 @@ const gel_all_orders = async (
   logged_in_user_data: JwtPayload
 ): Promise<IOrder[] | null> => {
   const { _id, role } = logged_in_user_data
-  let all_orders = null
 
-  if (role === 'admin') {
-    all_orders = await Order.find({}).populate('cow').populate('buyer')
-  } else if (role === 'buyer') {
-    all_orders = await Order.find({ buyer: new Types.ObjectId(_id) })
-      .populate('cow')
-      .populate('buyer')
-  } else if (role === 'seller') {
-    all_orders = await Order.find({ buyer: new Types.ObjectId(_id) })
-      .populate('cow')
-      .populate('buyer')
+  // return all orders base on role
+
+  switch (role) {
+    case 'admin':
+      return await Order.allOrders()
+    case 'buyer':
+      return Order.buyerOrders(_id)
+    case 'seller':
+      return await Order.sellerOrders(_id)
+    default:
+      return null
   }
-
-  return all_orders
 }
 
 // get get_order_details
@@ -135,45 +133,28 @@ const get_order_details = async (
   logged_in_user_data: JwtPayload,
   order_id: string | Types.ObjectId
 ): Promise<IOrder | null> => {
-  const { role } = logged_in_user_data
+  const { role, _id: user_id } = logged_in_user_data
+
   let order_details = null
 
-  if (role === 'admin') {
-    order_details = await Order.findById(order_id)
-      .populate({
-        path: 'cow',
-        populate: [
-          {
-            path: 'seller',
-          },
-        ],
-      })
-      .populate('buyer')
-  } else if (role === 'buyer') {
-    order_details = await Order.findById(order_id)
-      .populate({
-        path: 'cow',
-        populate: [
-          {
-            path: 'seller',
-            select: 'name phoneNumber address',
-          },
-        ],
-      })
-      .populate('buyer', { name: 1, phoneNumber: 1, address: 1, _id: 0 })
-  } else if (role === 'seller') {
-    order_details = await Order.findById(order_id)
-      .populate({
-        path: 'cow',
-        populate: [
-          {
-            path: 'seller',
-          },
-        ],
-      })
-      .populate('buyer', {
-        fields: [{ name: 1, phoneNumber: 1, address: 1 }],
-      })
+  // return all orders base on role
+  switch (role) {
+    case 'admin':
+      order_details = await Order.orderDetails(order_id)
+      break
+    case 'buyer':
+      order_details = await Order.buyerOrderDetails(user_id, order_id)
+      break
+    case 'seller':
+      order_details = await Order.sellerOrderDetails(user_id, order_id)
+      break
+    default:
+      order_details = null
+      break
+  }
+
+  if (!order_details || order_details === null) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Order not found')
   }
 
   return order_details
