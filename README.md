@@ -122,8 +122,8 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
 
   // request body
   {
-  "password":"abrakadabra",
-  "phoneNumber":"01711111111",
+  "password":"123456",
+  "phoneNumber":"1233211112",
   }
 
   //Responses
@@ -161,6 +161,64 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
       "accessToken": ""
     }
   }
+  ```
+
+- <h3>My profile (Admin profile)</h3>
+
+```http
+GET /api/v1/admins/my-profile
+
+
+```
+
+**Headers:**
+| Parameter | Type | Description |
+| ------------- | ------------ | ----------------------------------|
+| `authorization` | `string` | accessToken which get after login |
+
+```http
+//Responses
+{
+   "statusCode":200,
+   "success": true,
+   "message": "",
+   "data": {},
+}
+
+```
+
+- <h3>Update profile (Update user profile)</h3>
+
+  ```http
+  PATCH /api/v1/admin/my-profile
+
+  ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Body:**
+  The request body should be a JSON object with the following properties:
+
+  | properties    | Type         | Description                                           |
+  | ------------- | ------------ | ----------------------------------------------------- |
+  | `phoneNumber` | `string`     | (Optional) The phone number of the user.              |
+  | `role`        | `IUser_role` | (Optional) The role of the user. [(see here)](#Types) |
+  | `password`    | `string`     | (Optional) The password of the user.                  |
+  | `name`        | `object`     | (Optional) The name of the user.                      |
+  | `address`     | `string`     | (Optional) The address of the user.                   |
+
+  ```http
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data": {},
+  }
+
   ```
 
 ### Auth
@@ -309,7 +367,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
   GET /api/v1/users/{ user_id }
 
   <!--example  -->
-  GET /api/v1/users/648f0f9e196c06e2afaea12d
+  GET /api/v1/users/649dc32a5d24a5574d010bba
 
   ```
 
@@ -336,13 +394,37 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
 
   ```
 
+- <h3>My profile (User profile)</h3>
+
+```http
+GET /api/v1/users/my-profile
+
+
+```
+
+**Headers:**
+| Parameter | Type | Description |
+| ------------- | ------------ | ----------------------------------|
+| `authorization` | `string` | accessToken which get after login |
+
+```http
+//Responses
+{
+   "statusCode":200,
+   "success": true,
+   "message": "",
+   "data": {},
+}
+
+```
+
 - <h3>Update user</h3>
 
   ```http
   PATCH /api/v1/users/{ user_id }
 
   <!--example  -->
-  PATCH /api/v1/users/648f0f9e196c06e2afaea12d
+  PATCH /api/v1/users/649dc32a5d24a5574d010bba
   ```
 
   **Headers:**
@@ -381,13 +463,47 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
 
   ```
 
+- <h3>Update profile (Update user profile)</h3>
+
+  ```http
+  PATCH /api/v1/users/my-profile
+
+  ```
+
+  **Headers:**
+  | Parameter | Type | Description |
+  | ------------- | ------------ | ----------------------------------|
+  | `authorization` | `string` | accessToken which get after login |
+
+  **Body:**
+  The request body should be a JSON object with the following properties:
+
+  | properties    | Type         | Description                                           |
+  | ------------- | ------------ | ----------------------------------------------------- |
+  | `phoneNumber` | `string`     | (Optional) The phone number of the user.              |
+  | `role`        | `IUser_role` | (Optional) The role of the user. [(see here)](#Types) |
+  | `password`    | `string`     | (Optional) The password of the user.                  |
+  | `name`        | `object`     | (Optional) The name of the user.                      |
+  | `address`     | `string`     | (Optional) The address of the user.                   |
+
+  ```http
+  //Responses
+  {
+     "statusCode":200,
+     "success": true,
+     "message": "",
+     "data": {},
+  }
+
+  ```
+
 - <h3>Delete user</h3>
 
   ```http
   Delete /api/v1/users/{ user_id }
 
   <!--example  -->
-  DELETE /api/v1/users/648f0f7b196c06e2afaea128
+  DELETE /api/v1/users/649dc32a5d24a5574d010bba
   ```
 
   **Headers:**
@@ -519,7 +635,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
   GET /api/v1/cows/{ cow_id }
 
   <!--example  -->
-  GET /api/v1/cows/648f11ae84bf0b12abe9ccda
+  GET /api/v1/cows/64a050575039a888494206f7
   ```
 
   **Headers:**
@@ -550,7 +666,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
   PATCH /api/v1/cows/{ cow_id }
 
   <!--example  -->
-  PATCH /api/v1/cows/648f11ae84bf0b12abe9ccda
+  PATCH /api/v1/cows/64a050575039a888494206f7
   ```
 
   **Headers:**
@@ -596,7 +712,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
   DELETE /api/v1/cows/ { cow_id }
 
   <!--example  -->
-  DELETE /api/v1/cows/648f11a084bf0b12abe9ccd7
+  DELETE /api/v1/cows/64a0505e5039a888494206fa
   ```
 
   **Headers:**
@@ -646,7 +762,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
 
   // request body example
   {
-  "cow":"648f11a084bf0b12abe9ccd7",
+  "cow":"649dbbd0cf5e85e90cc05259",
   "buyer":"648f0f73196c06e2afaea125",
   }
 
@@ -688,7 +804,7 @@ These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) AP
   GET /api/v1/orders/{ order_id }
 
   <!--example  -->
-  GET /api/v1/orders/648f11ae84bf0b12abe9ccda
+  GET /api/v1/orders/64a050d45039a8884942070d
   ```
 
   **Headers:**

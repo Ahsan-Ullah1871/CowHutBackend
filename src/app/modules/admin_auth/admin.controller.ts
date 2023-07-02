@@ -31,7 +31,7 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
     secure: false,
   }
 
-  res.cookie('refresh_token', refreshToken, options)
+  res.cookie('refreshToken', refreshToken, options)
 
   sendResponse<IAdminLoginResponse, null>(res, {
     status_code: httpStatus.OK,
