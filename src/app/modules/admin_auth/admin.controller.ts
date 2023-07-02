@@ -41,7 +41,37 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+// Get  profile information
+const adminProfile = catchAsync(async (req: Request, res: Response) => {
+  const { _id: admin_id } = req.logged_in_user
+
+  const result = await AdminAuthServices.my_profile(admin_id)
+
+  sendResponse(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: "Admin's information retrieved successfully",
+  })
+})
+
+// ProfileUpdate
+const updateAdminProfile = catchAsync(async (req: Request, res: Response) => {
+  const { _id: admin_id } = req.logged_in_user
+  const { ...admin_data } = req.body
+  const result = await AdminAuthServices.update_profile(admin_data, admin_id)
+
+  sendResponse(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: "Admin's information updated successfully",
+  })
+})
+
 export const AdminAuthController = {
   signupAdmin,
   loginAdmin,
+  adminProfile,
+  updateAdminProfile,
 }

@@ -21,6 +21,7 @@ export type AdminModel = {
     encrypted_pass: string,
     given_pass: string
   ): Promise<boolean>
+  isPhoneNumberExist(phoneNumber: string): Promise<boolean>
 } & Model<IAdmin>
 
 // admin login interface

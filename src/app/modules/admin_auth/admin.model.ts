@@ -41,6 +41,17 @@ AdminSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(given_pass, encrypted_pass)
 }
 
+//isPhone Number Exist
+AdminSchema.statics.isPhoneNumberExist = async function (
+  phoneNumber: string
+): Promise<boolean> {
+  const isExist = await Admin.findOne({
+    phoneNumber: phoneNumber,
+  })
+
+  return isExist ? true : false
+}
+
 // Checking  phone number (Just for valid message)
 AdminSchema.pre('save', async function (next) {
   const isExist = await Admin.findOne({

@@ -52,19 +52,17 @@ const get_single_user = async (id: string): Promise<IUser | null> => {
 
 //MY  profile
 const my_profile = async (id: string): Promise<Partial<IUser> | null> => {
-  const isExist = await User.findById(id)
+  const isExist = await User.findById(id, {
+    name: 1,
+    phoneNumber: 1,
+    address: 1,
+  })
 
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
   }
 
-  //
-  const user = await User.findById(
-    id
-    // { name: 1, phoneNumber: 1, address: 1 }
-  )
-
-  return user
+  return isExist
 }
 
 // Update user
