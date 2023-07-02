@@ -1,7 +1,9 @@
 const root_api_response = {
   welcomeMessage:
     'Welcome to the Online Cow Selling Backend API documentation!',
-  mainUrl: 'https://cow-hut-sand.vercel.app/',
+  LiveUrl: 'https://cow-hut-sand.vercel.app/',
+  GithubURL:
+    'https://github.com/Porgramming-Hero-web-course/l2b1a4-cow-hut-admin-auth-Ahsan-Ullah1871',
   paths: [
     {
       group: 'Admin',
