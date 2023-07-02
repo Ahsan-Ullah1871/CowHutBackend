@@ -69,9 +69,34 @@ const updateAdminProfile = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+// refreshToken
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies
+  const result = await AdminAuthServices.refresh_token(refreshToken)
+
+  const accessToken = result?.accessToken as string
+  const newRefreshToken = result?.refreshToken as string
+
+  // cookies options
+  const options = {
+    httpOnly: true,
+    secure: false,
+  }
+
+  res.cookie('refreshToken', newRefreshToken, options)
+
+  sendResponse<IAdminLoginResponse, null>(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: { accessToken },
+    message: 'New access token generated successfully !',
+  })
+})
+
 export const AdminAuthController = {
   signupAdmin,
   loginAdmin,
   adminProfile,
   updateAdminProfile,
+  refreshToken,
 }

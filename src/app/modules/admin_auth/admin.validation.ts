@@ -49,3 +49,9 @@ export const update_admin_profile_zod_schema = z.object({
       .optional(),
   }),
 })
+
+export const admin_refresh_token_zod_schema = z.object({
+  cookies: z.object({
+    refreshToken: z.string({ required_error: 'Refresh token  is required' }),
+  }),
+})

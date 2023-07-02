@@ -2,6 +2,7 @@ import requestValidationHandler from '../../middlewares/requestValidationHandler
 import express from 'express'
 import {
   admin_login_zod_schema,
+  admin_refresh_token_zod_schema,
   admin_signup_zod_schema,
   update_admin_profile_zod_schema,
 } from './admin.validation'
@@ -20,6 +21,12 @@ router.post(
   '/login',
   requestValidationHandler(admin_login_zod_schema),
   AdminAuthController.loginAdmin
+)
+
+router.post(
+  '/refresh-token',
+  requestValidationHandler(admin_refresh_token_zod_schema),
+  AdminAuthController.refreshToken
 )
 
 router.get(

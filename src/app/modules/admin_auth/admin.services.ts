@@ -119,9 +119,49 @@ const update_profile = async (
   return updated_admin_data
 }
 
+// refresh_token
+const refresh_token = async (
+  token: string
+): Promise<IAdminLoginResponse | null> => {
+  //  token verification
+  let decoded_token = null
+  try {
+    decoded_token = jwtHelper.verify_token(
+      token,
+      config.jwt.refresh_token_secret as Secret
+    )
+  } catch (err) {
+    // err
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid refresh token')
+  }
+  const { _id, role } = decoded_token
+
+  // user checking verification
+  const isAdminExist = await Admin.findById(_id)
+  if (!isAdminExist) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid refresh token')
+  }
+
+  // access token
+  const accessToken = jwtHelper.create_token(
+    { _id, role },
+    config.jwt.access_token_secret as Secret,
+    config.jwt.access_token_expiresIn as string
+  )
+  // refresh token
+  const refreshToken = jwtHelper.create_token(
+    { _id, role },
+    config.jwt.refresh_token_secret as Secret,
+    config.jwt.refresh_token_expiresIn as string
+  )
+
+  return { accessToken, refreshToken }
+}
+
 export const AdminAuthServices = {
   admin_signup,
   admin_login,
   my_profile,
   update_profile,
+  refresh_token,
 }
