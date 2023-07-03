@@ -94,8 +94,8 @@ const update_user = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Budget should be 0 for seller')
   }
 
-  const { name, ...other_user_data } = user_data
-  const userData: Partial<IUser> = { ...other_user_data }
+  const { name, password, phoneNumber, ...other_user_data } = user_data
+  const userData: Partial<IUser> = { ...other_user_data, phoneNumber }
 
   // Name updating handle
   if (name && Object.keys(name).length) {
@@ -103,6 +103,19 @@ const update_user = async (
       const name_key = `name.${key}` as keyof Partial<IUser>
       ;(userData as any)[name_key] = name[key as keyof typeof name]
     })
+  }
+
+  // phone  updating handle
+  if (phoneNumber && (await User.isPhoneNumberExist(phoneNumber))) {
+    throw new ApiError(
+      httpStatus.CONFLICT,
+      'Already same number used for a user'
+    )
+  }
+
+  // password  updating handle
+  if (password) {
+    userData.password = await hashingHelper.encrypt_password(password)
   }
 
   const updated_user_data = await User.findByIdAndUpdate(id, userData, {
